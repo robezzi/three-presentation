@@ -1,10 +1,9 @@
 import React from 'react'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
-import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei'
-import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
-import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
+import { useThree, useFrame } from '@react-three/fiber'
+import { useGLTF, useTexture } from '@react-three/drei'
+import { BallCollider, CuboidCollider, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 
 import badge from "../../../assets/tag.glb";
 import bander from "../../../assets/band.png"
@@ -114,7 +113,7 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
             </group>
             <mesh ref={band}>
                 <meshLineGeometry />
-                <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={texture} repeat={[-3, 1]} lineWidth={1} />
+                <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={texture} repeat={[-2, 1]} lineWidth={1} />
             </mesh>
         </>
     )

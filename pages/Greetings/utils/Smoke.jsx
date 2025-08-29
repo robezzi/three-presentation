@@ -41,12 +41,16 @@ export default function Smoke({
     }, [count, width, height])
 
     useFrame((state, delta) => {
-        if (!groupRef.current || particles.length === 0) return
 
+        if (!groupRef.current || particles.length === 0) return
         // Обновляем billboarding для всех частиц
         groupRef.current.children.forEach((mesh, i) => {
             mesh.lookAt(camera.position)
         })
+
+        if (groupRef.current) {
+            groupRef.current.layers.set(1)
+        }
 
         particles.forEach((particle, i) => {
             // Плавное движение вверх

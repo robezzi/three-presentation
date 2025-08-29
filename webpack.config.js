@@ -22,8 +22,12 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                test: /\.(css|scss|less)$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "less-loader",
+                ],
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|glb)$/i,

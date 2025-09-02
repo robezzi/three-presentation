@@ -7,7 +7,7 @@ import { useTexture } from '@react-three/drei'
 import smokeTexture from "../../../assets/smoke-33819.png"
 
 export default function Smoke({
-    count = 5,
+    count = 1,
     width = 100,
     height = 100,
     textureUrl = smokeTexture
@@ -31,7 +31,6 @@ export default function Smoke({
             ),
             width: width * (0.6 + Math.random() * 0.8),
             height: height * (0.6 + Math.random() * 0.8),
-            // Убираем самостоятельное вращение частиц
             speed: 0.5 + Math.random() * 0.8,
             opacity: 0.1 + Math.random() * 0.4,
             scale: 0.5 + Math.random() * 0.3,
@@ -47,10 +46,6 @@ export default function Smoke({
         groupRef.current.children.forEach((mesh, i) => {
             mesh.lookAt(camera.position)
         })
-
-        if (groupRef.current) {
-            groupRef.current.layers.set(1)
-        }
 
         particles.forEach((particle, i) => {
             // Плавное движение вверх

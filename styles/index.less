@@ -2,3 +2,43 @@
 @import "./common/common.less";
 @import "./common/reset.less";
 @import "./vars.less";
+@import "./pages/greetings.less";
+
+:root {
+	.adaptive-desktop-small({
+		--content-padding-lr: 50px;
+		
+		--h1-font-size: 48px;
+		--h2-font-size: 40px;
+	});
+
+	.adaptive-notebook({
+		--font-size: 14px;
+		
+		--h1-font-size: 48px;
+		--h2-font-size: 40px;
+	});
+
+	.adaptive-tablet({
+		--content-padding-lr: 40px;
+
+		--h1-font-size: 40px;
+		--h2-font-size: 34px;
+	});
+	
+	.adaptive-tablet-small({
+		--content-padding-lr: 25px;
+	});
+
+	.adaptive-mobile({
+		--h1-font-size: 32px;
+		--h2-font-size: 28px;
+		--h3-font-size: 22px;
+		--h4-font-size: 18px;
+		--h5-font-size: 16px;
+	});
+	
+	.adaptive-mobile-small({
+		--content-padding-lr: 15px;
+	});
+}

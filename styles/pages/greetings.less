@@ -2,26 +2,34 @@
 @import "../vars.less";
 
 .greetings {
+    position: relative;
+    height: 100vh;
     display: flex;
 
     & .badge-card {
         position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
         left: 0;
         top: 0;
     }
 
     & .container {
+        position: relative;
+        z-index: 2;
         width: 100%;
-        height: 100vh;
+        height: auto;
         overflow: hidden;
         transition: transform 0.8s ease-in-out;
         display: flex;
+        flex-flow: column nowrap;
         justify-content: space-between;
+        pointer-events: none;
         
         & .left-text {
             z-index: 10;
             text-align: start;
-            pointer-events: none;
             animation: slideInFromLeft 2s ease-out forwards;
             transition: opacity 0.5s ease-in-out;
             margin-top: 450px;
@@ -37,13 +45,40 @@
                 color: #000000; 
                 font-size: 24px;
             }
+
+            & ul {
+                margin-top: 25px;
+                display: flex;
+                flex-direction: column;
+
+                & p {
+                    font-size: 16px;
+                    margin-bottom: 10px;
+                }
+
+                & li {
+                    & a {
+                        display: flex;
+                        align-items: center;
+                        z-index: 333;
+                        pointer-events: auto;
+
+                        & p {
+                            animation: slideLinks 2s ease-out forwards;
+                        }
+
+                        & svg {
+                            margin-right: 10px;
+                            margin-bottom: 10px;
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
+                }
+            }
         }
     
         .drag {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             z-index: 10;
             text-align: start;
             pointer-events: none;
@@ -51,6 +86,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin-bottom: 80px;
             gap: 20px;
             color: #000000;
             font-size: 12px;
@@ -65,6 +101,14 @@
         }
     }
 
+    .adaptive-notebook-small({
+        & .container {
+            & .left-text {
+                margin-top: 700px;
+            }
+        }
+    });
+
     .adaptive-tablet({
         & .container {
             & .left-text {
@@ -75,11 +119,16 @@
                 & p {
                     font-size: 16px;
                 }
+
+                & ul {
+                    & svg {
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
             }
             
             .drag {
-                bottom: 10%;
-                
                 & svg {
                     width: 30px;
                 }
@@ -90,8 +139,6 @@
     .adaptive-tablet-small({
         & .container {
             & .left-text {
-                margin-top: 650px;
-                
                 & h1 {
                     font-size: 40px;
                 }
@@ -114,38 +161,50 @@
 
 @keyframes slideInFromLeft {
     from {
-      opacity: 0;
-      left: -100%;
+        opacity: 0;
+        transform: translateX(-100%);
     }
     
     to {
-      opacity: 1;
-      left: 25%;
+        opacity: 1;
+        transform: translateX(0%);
     }
 }
 
 @keyframes slideInFromBottom {
     from {
-      opacity: 0;
-      bottom: -100%;
+        opacity: 0;
+        transform: translateY(200%);
     }
     
     to {
-      opacity: 1;
-      bottom: 5%;
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideLinks {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateX(0%);
     }
 }
 
 @keyframes dragBounce {
     0% {
-      transform: translateY(0px);
+        transform: translateY(0px);
     }   
     
     50% {
-      transform: translateY(5px);
+        transform: translateY(5px);
     }   
     
     100% {
-      transform: translateY(0px);   
+        transform: translateY(0px);   
     }
 }

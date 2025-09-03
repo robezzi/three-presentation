@@ -16,6 +16,7 @@ export default function Smoke({
     const { camera } = useThree()
     const [particles, setParticles] = useState([])
     const texture = useTexture(textureUrl)
+    const tempVec = new THREE.Vector3();
 
     useEffect(() => {
         if (count === 0) {
@@ -42,31 +43,26 @@ export default function Smoke({
     useFrame((state, delta) => {
 
         if (!groupRef.current || particles.length === 0) return
-        // Обновляем billboarding для всех частиц
-        groupRef.current.children.forEach((mesh, i) => {
-            mesh.lookAt(camera.position)
-        })
+        const camPos = tempVec.copy(camera.position);
+        groupRef.current.children.forEach((mesh) => {
+            mesh.lookAt(camPos);
+        });
 
         particles.forEach((particle, i) => {
-            // Плавное движение вверх
             particle.position.y += particle.speed * delta
 
-            // Легкое покачивание из стороны в сторону
             particle.position.x += Math.sin(state.clock.elapsedTime * 0.8 + particle.initialY * 10) * 0.1 * delta
 
-            // Плавное изменение размера (дым расширяется)
             particle.scale += 0.1 * delta
 
-            // Постепенное увеличение прозрачности и затем исчезновение
             particle.opacity = Math.max(0, 0.4 - (particle.position.y + 5) / 30)
 
-            // Сброс частиц, которые ушли слишком высоко
             if (particle.position.y > 10 || particle.opacity <= 0) {
                 particle.position.set(
                     (Math.random() - 0.5) * 5,
                     -5 + Math.random() * 2,
                     -10 + Math.random() * 3
-                )
+                );
                 particle.width = width * (0.6 + Math.random() * 0.8)
                 particle.height = height * (0.6 + Math.random() * 0.8)
                 particle.speed = 0.5 + Math.random() * 0.8
@@ -75,18 +71,11 @@ export default function Smoke({
                 particle.initialY = Math.random()
             }
 
-            // Обновление позиции и масштаба меша
-            const mesh = groupRef.current.children[i]
+            const mesh = groupRef.current.children[i];
             if (mesh) {
-                mesh.position.copy(particle.position)
-                mesh.scale.set(
-                    particle.width * particle.scale,
-                    particle.height * particle.scale,
-                    1
-                )
-
-                const material = mesh.material
-                material.opacity = particle.opacity
+                mesh.position.copy(particle.position);
+                mesh.scale.set(particle.width * particle.scale, particle.height * particle.scale, 1);
+                mesh.material.opacity = particle.opacity;
             }
         })
     })

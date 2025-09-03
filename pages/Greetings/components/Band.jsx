@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useThree, useFrame } from '@react-three/fiber'
 import { useGLTF, useTexture } from '@react-three/drei'
 import { BallCollider, CuboidCollider, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
+import useDebounce from "../../../hooks/useDebounce"
 
-import badge from "../../../assets/tag.glb";
+import badge from "../../../assets/tag-v1.glb";
 import bander from "../../../assets/band.png"
 
 
@@ -20,27 +21,37 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
     const [dragged, drag] = useState(false)
     const [hovered, hover] = useState(false)
     const [bandPosition, setBandPosition] = useState([3, 4, 0]);
-    const dragStartPosition = useRef(new THREE.Vector3())
+    const [windowSize, setWindowSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
+    const debouncedSize = useDebounce(windowSize, 200);
     const groupPositionRef = useRef(new THREE.Vector3(...bandPosition))
+    const dragOffset = useRef(new THREE.Vector3());
 
     useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1])
     useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1])
     useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1])
     useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.45, 0]])
 
+
+
     useEffect(() => {
         const handleResize = () => {
-            if (window.screen.width < 1440) {
-                setBandPosition([0, 6, 0]);
-            } else {
-                setBandPosition([3, 4, 0]);
-            }
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
         };
-        handleResize();
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        const newPosition = debouncedSize.width < 1440 ? [0, 6, 0] : [3, 4, 0];
+        setBandPosition(newPosition);
+    }, [debouncedSize.width]);
 
     useEffect(() => {
         if (hovered) {
@@ -70,7 +81,6 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
                 ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)))
             })
 
-            // Обновляем точки кривой с учетом позиции группы
             curve.points[0].copy(j3.current.translation()).sub(groupPositionRef.current)
             curve.points[1].copy(j2.current.lerped).sub(groupPositionRef.current)
             curve.points[2].copy(j1.current.lerped).sub(groupPositionRef.current)
@@ -88,7 +98,6 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
 
     return (
         <group position={bandPosition}>
-            {/* Основная группа с физическими телами */}
             <RigidBody ref={fixed} {...segmentProps} type="fixed" />
             <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
                 <BallCollider args={[0.1]} />
@@ -117,10 +126,10 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
                         drag(false)
                     }}
                     onPointerDown={(e) => {
-                        if (isTransitioning) return
-                        e.target.setPointerCapture(e.pointerId)
-                        dragStartPosition.current.copy(card.current.translation())
-                        drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())))
+                        if (isTransitioning) return;
+                        e.target.setPointerCapture(e.pointerId);
+                        dragOffset.current.copy(e.point).sub(card.current.translation());
+                        drag(dragOffset.current);
                     }}>
                     <mesh geometry={nodes.card.geometry}>
                         <meshPhysicalMaterial map={materials.base.map} map-anisotropy={16} clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.5} />
@@ -129,8 +138,6 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, isTransitioning }) 
                     <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
                 </group>
             </RigidBody>
-
-            {/* Mesh линии */}
             <mesh ref={band}>
                 <meshLineGeometry />
                 <meshLineMaterial

@@ -1,4 +1,3 @@
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -6,7 +5,8 @@ module.exports = {
     entry: './index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].[contenthash].js',
+        chunkFilename: '[name].[contenthash].chunk.js',
         clean: true,
     },
     module: {
@@ -32,6 +32,9 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif|glb)$/i,
                 type: 'asset/resource',
+                generator: {
+                    filename: 'assets/[name].[contenthash][ext]'
+                }
             },
         ],
     },
@@ -48,4 +51,21 @@ module.exports = {
         port: 3000,
         open: true,
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                three: {
+                    test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
+                    name: 'three',
+                    priority: 20,
+                },
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    priority: 10,
+                },
+            },
+        },
+    }
 };

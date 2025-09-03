@@ -4,6 +4,7 @@
     "@react-three/fiber": "^9.3.0",
     "@react-three/postprocessing": "^3.0.4",
     "@react-three/rapier": "^2.1.0",
+    "lodash": "^4.17.21",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -17,6 +18,7 @@
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "babel-loader": "^10.0.0",
+    "compression-webpack-plugin": "^11.1.0",
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.4",
     "less": "^4.4.1",

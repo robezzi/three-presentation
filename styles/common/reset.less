@@ -16,3 +16,17 @@ p {
     margin: 0;
     padding: 0;
 }
+
+a {
+    text-decoration: none;
+
+    &:hover,
+    :focus {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    &:visited {
+        color: #000000;
+    }
+}

@@ -1,0 +1,55 @@
+@import "../vars.less";
+
+.adaptive-desktop-small(@rules) {
+	@media all and (max-width: @adaptive-desktop-small) {
+		@rules();
+	}
+}
+
+.adaptive-notebook(@rules) {
+	@media all and (max-width: @adaptive-notebook) {
+		@rules();
+	}
+}
+
+.adaptive-notebook-small(@rules) {
+	@media all and (max-width: @adaptive-notebook-small) {
+		@rules();
+	}
+}
+
+.adaptive-tablet(@rules) {
+	@media all and (max-width: @adaptive-tablet) {
+		@rules();
+	}
+}
+
+.adaptive-tablet-landscape(@rules) {
+	@media all and (max-width: @adaptive-tablet) and (orientation: landscape) {
+		@rules();
+	}
+}
+
+.adaptive-tablet-small(@rules) {
+	@media all and (max-width: @adaptive-tablet-small) {
+		@rules();
+	}
+}
+
+.adaptive-mobile(@rules) {
+	@media all and (max-width: @adaptive-mobile) {
+		@rules();
+	}
+}
+
+.adaptive-mobile-landscape(@rules) {
+	@media all and (max-width: @adaptive-mobile) and (orientation: landscape) {
+		@rules();
+	}
+}
+
+.adaptive-mobile-small(@rules) {
+	@media all and (max-width: @adaptive-mobile-small) {
+		@rules();
+	}
+}

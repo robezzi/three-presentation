@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { createRoot } from 'react-dom/client'; // Импортируйте createRoot
+import { createRoot } from 'react-dom/client';
 import App from './App';
-import './styles.css'; // Импортируйте ваши стили, если они есть
+import './index.less';
 
 const container = document.getElementById('root');
-const root = createRoot(container); // Создайте корень
+const root = createRoot(container);
 
 root.render(
     <React.StrictMode>

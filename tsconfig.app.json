@@ -23,6 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-   "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+   "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
   "exclude": ["node_modules"]
 }

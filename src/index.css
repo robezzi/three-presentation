@@ -2,46 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-body, #root {
-    width      : 100%;
-    height     : 100%;
-    font-family: "Michroma", sans-serif;
-    font-weight: 400;
-    font-style : normal;
-}
-
-ul,li {
-    list-style: none;
-    text-decoration: none;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+body,
+#root {
+	width: 100%;
+	height: 100%;
+	font-family: 'Michroma', sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+ul,
+li {
+	list-style: none;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
 }
 
 input,
 button,
 textarea,
 select {
-    margin: 0;
-    font: inherit;
+	margin: 0;
+	font: inherit;
 }
 a {
-    text-decoration: none;
-    color: #000000;
+	text-decoration: none;
+	color: #000000;
 }
 
 a:hover,
 a:focus {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+	text-decoration: underline;
+	text-underline-offset: 4px;
 }
 
 a:visited {
-    color: #000000;
+	color: #000000;
 }

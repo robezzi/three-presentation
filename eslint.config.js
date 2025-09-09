@@ -17,11 +17,9 @@ export default tseslint.config([
 		rules: {
 			'no-unused-vars': 'off',
 			'@typescript-eslint/no-unused-vars': 'warn',
-			'@typescript-eslint/explicit-function-return-type': 'warn',
-			'@typescript-eslint/no-explicit-any': 'warn',
-			'prefer-const': 'error',
+			'@typescript-eslint/no-explicit-any': 'error',
 			'react-hooks/rules-of-hooks': 'error',
-			'no-console': 'warn',
+			'no-console': 'error',
 			quotes: ['error', 'single'],
 			semi: ['error', 'always'],
 		},

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 
-import smokeTexture from '../assets/smoke-33819.png';
+import smokeTexture from '@assets/smoke-33819.png';
 
 interface Particle {
 	position: THREE.Vector3;
@@ -15,15 +15,22 @@ interface Particle {
 	initialY: number;
 }
 
-function useGridTexture(): THREE.CanvasTexture | undefined {
-	return useMemo(() => {
+export default function Smoke({ count = 2, width = 50, height = 50, textureUrl = smokeTexture }): React.ReactElement {
+	const { camera } = useThree();
+	const [particles, setParticles] = useState<Particle[]>([]);
+	const groupRef = useRef<THREE.Group>(null);
+	const texture = useTexture(textureUrl);
+	const tempVec = new THREE.Vector3();
+
+	const gridTexture = useMemo(() => {
 		const canvas = document.createElement('canvas');
 		canvas.width = canvas.height = 256;
+
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
+
 		ctx.fillStyle = 'rgba(58, 58, 58, 0.69)';
 		ctx.fillRect(0, 0, 256, 256);
-
 		ctx.strokeStyle = 'rgba(0, 180, 252, 1)';
 		ctx.lineWidth = 2;
 
@@ -44,15 +51,6 @@ function useGridTexture(): THREE.CanvasTexture | undefined {
 		texture.repeat.set(2000, 2000);
 		return texture;
 	}, []);
-}
-
-export default function Smoke({ count = 2, width = 50, height = 50, textureUrl = smokeTexture }): React.ReactElement {
-	const { camera } = useThree();
-	const [particles, setParticles] = useState<Particle[]>([]);
-	const groupRef = useRef<THREE.Group>(null);
-	const texture = useTexture(textureUrl);
-	const tempVec = new THREE.Vector3();
-	const gridTexture = useGridTexture();
 
 	useEffect(() => {
 		if (count === 0) {

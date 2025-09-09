@@ -1,4 +1,3 @@
-'use client';
 import { Canvas, extend } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
@@ -7,9 +6,9 @@ import { EffectComposer, Bloom, BrightnessContrast, Noise, Vignette } from '@rea
 import { BlendFunction } from 'postprocessing';
 import { motion } from 'motion/react';
 
-import Band from './components/Band';
-import card from './assets/card.glb';
-import Smoke from './components/Smoke';
+import Band from '@components/Band';
+import card from '@assets/card.glb';
+import Smoke from '@components/Smoke';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 useGLTF.preload(card);

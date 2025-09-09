@@ -1,4 +1,3 @@
-'use client';
 import * as THREE from 'three';
 import { useEffect, useRef, useState } from 'react';
 import { useFrame, extend } from '@react-three/fiber';
@@ -13,8 +12,8 @@ import {
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
-import cardUrl from '../assets/card.glb?url';
-import textureUrl from '../assets/tag_texture.png?url';
+import cardUrl from '@assets/card.glb?url';
+import textureUrl from '@assets/tag_texture.png?url';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -72,9 +71,8 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, position = [3, 4, 0
 	useEffect(() => {
 		if (hovered) {
 			document.body.style.cursor = dragged ? 'grabbing' : 'grab';
-			return (): void => void (document.body.style.cursor = 'auto');
 		}
-		return (): void => void (document.body.style.cursor = 'auto');
+		return () => void (document.body.style.cursor = 'auto');
 	}, [hovered, dragged]);
 
 	useFrame((state, delta) => {
@@ -154,10 +152,8 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, position = [3, 4, 0
 								drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())))
 						)}
 					>
-						{/* @ts-expect-error geometry/map are not declared? */}
-						<mesh geometry={nodes.card.geometry}>
+						<mesh geometry={(nodes.card as THREE.Mesh).geometry}>
 							<meshPhysicalMaterial
-								// @ts-expect-error geometry/map are not declared?
 								map={materials.base.map}
 								map-anisotropy={16}
 								clearcoat={1}
@@ -167,13 +163,11 @@ export default function Band({ maxSpeed = 50, minSpeed = 10, position = [3, 4, 0
 							/>
 						</mesh>
 						<mesh
-							// @ts-expect-error geometry/map are not declared?
-							geometry={nodes.clip.geometry}
+							geometry={(nodes.clip as THREE.Mesh).geometry}
 							material={materials.metal}
 							material-roughness={0.3}
 						/>
-						{/* @ts-expect-error geometry/map are not declared? */}
-						<mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+						<mesh geometry={(nodes.clamp as THREE.Mesh).geometry} material={materials.metal} />
 					</group>
 				</RigidBody>
 			</group>
